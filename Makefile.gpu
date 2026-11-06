@@ -1,0 +1,33 @@
+ARCH ?= sm_100
+NVCC ?= $(if $(wildcard /usr/local/cuda-13.4/bin/nvcc),/usr/local/cuda-13.4/bin/nvcc,nvcc)
+CXX ?= g++
+HOST_CXX ?=
+FLAGS = $(if $(HOST_CXX),-ccbin $(HOST_CXX)) -O3 -std=c++17 -arch=$(ARCH) --fmad=false -rdc=true -Xcompiler=-pthread
+PROGRAMS = hello trace metric simplify judge check
+COMMON = src/core/trace_field.cpp src/core/mesh.cpp src/core/image.cpp src/core/metric.cpp src/core/simplify.cpp src/core/judge_metric.cpp
+STUDENT = student/part0_hello.cu student/part1_sdf.cu student/part2_qem.cu student/part3_metric.cu
+SOURCES = $(COMMON) $(STUDENT)
+OBJECTS = $(patsubst %.cpp,build-gpu/%.o,$(filter %.cpp,$(SOURCES))) $(patsubst %.cu,build-gpu/%.o,$(filter %.cu,$(SOURCES)))
+HEADERS = $(wildcard src/core/*.h) external/stb_image_write.h external/stb_image.h
+.PHONY: all clean FORCE
+all: $(addprefix build-gpu/,$(PROGRAMS))
+# Architecture changes invalidate objects automatically.
+build-gpu/config: FORCE
+	@mkdir -p build-gpu
+	@echo '$(NVCC) $(FLAGS)' > build-gpu/config.new
+	@cmp -s build-gpu/config.new $@ || cp build-gpu/config.new $@
+	@rm build-gpu/config.new
+build-gpu/%.o: %.cpp $(HEADERS) build-gpu/config
+	@mkdir -p $(dir $@)
+	$(NVCC) $(FLAGS) -x cu -dc $< -o $@
+build-gpu/%.o: %.cu $(HEADERS) build-gpu/config
+	@mkdir -p $(dir $@)
+	$(NVCC) $(FLAGS) -dc $< -o $@
+build-gpu/host_probes.o: src/host_probes.cpp $(STUDENT) $(HEADERS) build-gpu/config
+	@mkdir -p build-gpu
+	$(if $(HOST_CXX),$(HOST_CXX),$(CXX)) -O3 -std=c++17 -pthread -c $< -o $@
+build-gpu/%: build-gpu/src/%_main.o $(OBJECTS) build-gpu/host_probes.o
+	$(NVCC) $(FLAGS) $^ -o $@
+.SECONDARY:
+clean:
+	rm -rf build-gpu

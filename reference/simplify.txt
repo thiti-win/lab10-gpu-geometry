@@ -1,0 +1,22 @@
+
+Geometry on the GPU | simplify
+  Input V/E/F               18124 / 54372 / 36248
+  Input chi / genus         0 / 1.000000
+  Output V/E/F              500 / 1500 / 1000
+  Output chi / genus        0 / 1.000000
+  Collapses                 17624
+  Rejected link             4695
+  Rejected normal flip      70607
+  Rejected degenerate       55481
+  Simplify ms               880.1388
+  Saved                     out/simplified.obj
+  Part III Hausdorff        0.0090
+  Part III Hausdorff %      0.3158
+  Part III mean             0.0005
+  Part III mean %           0.0158
+  Hausdorff                 0.0090
+  Hausdorff %               0.3158
+  Mean distance             0.0005
+  Mean %                    0.0159
+  Boundary / nonmanifold    0 / 0
+  Competition               VALID

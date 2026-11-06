@@ -1,0 +1,17 @@
+
+Geometry on the GPU | trace
+  drawing                   full scene, lit with normals
+  Resolution                960x540
+  Backend                   CPU emulation: 20 threads
+  Block / grid              16 x 16 / 60 x 34
+  Render ms                 62.8425
+  Mean steps                15.6123
+  Max steps                 135
+  Hit %                     71.9823
+  Eikonal samples           100000
+  |grad f| min              0.2697
+  |grad f| mean             0.9911
+  |grad f| max              1.0116
+  Outside [.99,1.01] %      10.0930
+  Saved                     out/trace.png
+  Comparison                out/trace_compare.png (left: yours; right: reference)

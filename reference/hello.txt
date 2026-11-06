@@ -1,0 +1,9 @@
+
+Geometry on the GPU | hello
+  Backend                   CPU emulation: 20 threads
+  Resolution                1024 x 768
+  Block / grid              16 x 16 / 64 x 48
+  Threads / pixels          786432 / 786432
+  Render ms                 9.0069
+  Saved                     out/hello.png
+  Comparison                out/hello_compare.png (left: yours; right: reference)

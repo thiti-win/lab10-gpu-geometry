@@ -1,0 +1,18 @@
+
+Geometry on the GPU | metric
+  Backend                   CPU emulation: 20 threads
+  Input A                   data/part.obj
+  Input B                   out/simplified.obj
+  Samples each direction    20000
+  A -> B max / mean         0.009003 / 0.000453
+  B -> A max / mean         0.008693 / 0.000447
+  A -> B kernel ms          53.0731000000
+  B -> A kernel ms          596.9628000000
+  A -> B maximum            0.0090034632
+  A -> B mean               0.0004530762
+  B -> A maximum            0.0086925030
+  B -> A mean               0.0004474085
+  Hausdorff                 0.0090034632
+  Mean                      0.0004502424
+  Hausdorff %               0.3157833264
+  Mean %                    0.0157915937

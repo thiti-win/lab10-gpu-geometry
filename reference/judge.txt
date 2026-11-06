@@ -1,0 +1,15 @@
+triangles,hausdorff_pct,mean_pct,valid
+1000,0.3157834571,0.01589553535,1
+
+Geometry on the GPU | judge
+  Samples per direction     50000
+  Seed                      12345
+  Chi (ref / output)        0 / 0
+  Reference -> output ms    63.4118
+  Output -> reference ms    15.2009
+  Hausdorff                 0.0090
+  Hausdorff %               0.3158
+  Mean distance             0.0005
+  Mean %                    0.0159
+  Boundary / nonmanifold    0 / 0
+  Competition               VALID

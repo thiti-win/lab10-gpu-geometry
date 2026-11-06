@@ -1,0 +1,18 @@
+name: CPU build
+on: [push, pull_request]
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+      - run: cmake --build build --config Release --parallel
+      - run: ./build/check --ci
+      - run: ./build/hello
+      - run: ./build/trace --res 160x90
+      - run: ./build/simplify --target 1000
+      - run: ./build/judge out/simplified.obj

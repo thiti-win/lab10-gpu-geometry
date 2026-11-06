@@ -1,0 +1,17 @@
+OK: Cramer solve with nonsymmetric matrix
+OK: singular solve rejected
+OK: outer product, block extraction and evaluation
+OK: OBJ round trip with blank lines
+OK: tetrahedron topology
+OK: open surface rejected
+OK: duplicate face rejected
+OK: pinched vertex link rejected
+OK: fixed seed sampling repeats
+OK: triangle vertex region
+OK: triangle edge region
+OK: degenerate triangle distance
+OK: BVH judge agrees with independent brute force on random surfaces
+OK: identical closed surface is VALID
+OK: distant closed surface rejected
+OK: integer atomics with multiple blocks
+All given-code checks passed
