@@ -18,7 +18,7 @@
 // Example: sdf_sphere((3,0,0),1) -> 2; ((0.5,0,0),1) -> -0.5.
 HD float sdf_sphere(vec3 p, float r) {
     // TODO (1a) 1: Distance to centre minus radius; length(p) is given.
-    return task_blank<float>("1a");
+    return length(p) - r;
 }
 
 // Follow rays to turn the sphere distance into a visible lit ball.
@@ -40,14 +40,14 @@ HD float sphere_trace(vec3 ro, vec3 rd, float k, int* steps) {
     *steps = 0;
     for (int i = 0; i < MAX_STEPS; ++i) {
         // TODO (1b) 1: Point at distance t along the ray: ro + t * rd.
-        vec3 p = task_blank<vec3>("1b");
+        vec3 p = ro + t * rd;
         // TODO (1b) 2: Ask current_scene(p, k) how far the surface is.
-        float distance = task_blank<float>("1b");
+        float distance = current_scene(p, k);
         *steps = i + 1; // Count this sample, including an immediate hit.
         // TODO (1b) 3: Touching means distance < HIT_EPS.
-        if (task_blank<bool>("1b")) return t;
+        if (distance < HIT_EPS) return t;
         // TODO (1b) 4: Move forward by distance.
-        t += task_blank<float>("1b");
+        t += distance;
         if (t > MAX_DIST) break;
     }
     return -1;
@@ -67,7 +67,7 @@ HD float sphere_trace(vec3 ro, vec3 rd, float k, int* steps) {
 // Example: op_union(-1,2) -> -1.
 HD float op_union(float a, float b) {
     // TODO (1c) 1: Keep the smaller field value with min(a, b).
-    return task_blank<float>("1c");
+    return min(a, b);
 }
 
 // TASK 1c: Given distances to A and B, return the distance to A minus B.
@@ -82,7 +82,7 @@ HD float op_union(float a, float b) {
 // Example: op_subtract(-1,-2) -> 2 (point removed).
 HD float op_subtract(float a, float b) {
     // TODO (1c) 2: Keep max(a, -b) to cut B out of A.
-    return task_blank<float>("1c");
+    return max(a, -b);
 }
 
 // GIVEN: Smooth union; no blanks. Change k in Task 1d to play with the joint.
@@ -116,10 +116,10 @@ HD float op_smooth_union(float a, float b, float k) {
 // Example: scene_sdf((0,1.15,0),0.2) -> -0.5 (inside the top ball).
 HD float scene_sdf(vec3 p, float k) {
     // TODO (1d) 1: Subtract the unit sphere from sdf_box(p, {0.8f,0.8f,0.8f}).
-    float holes = task_blank<float>("1d");
+    float holes = op_subtract(sdf_box(p, {0.8f,0.8f,0.8f}), sdf_sphere(p, 1.0f));
     // TODO (1d) 2: Sphere at p - vec3{0,1.15f,0}, radius 0.5f.
-    float top = task_blank<float>("1d");
+    float top = sdf_sphere(p - vec3{0, 1.15f, 0}, 0.5f);
     // TODO (1d) 3: Smooth-union holes and top with k, then union floor p.y + 0.8f.
-    return task_blank<float>("1d");
+    return op_union(op_smooth_union(holes, top, k), p.y + 0.8f);
 }
 

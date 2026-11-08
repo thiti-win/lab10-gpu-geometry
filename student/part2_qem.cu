@@ -27,10 +27,10 @@ double collapse_cost(const Quadric& Q, vec3 v1, vec3 v2, vec3* best) {
     *best = v1;
     for (vec3 position : {v2, midpoint}) {
         // TODO (2a) 1: Is evaluate(Q, position) smaller than evaluate(Q, *best)?
-        if (task_blank<bool>("2a")) *best = position;
+        if (evaluate(Q, position) < evaluate(Q, *best)) *best = position;
     }
     // TODO (2a) 2: Return evaluate(Q, *best), the winning cost.
-    return task_blank<double>("2a");
+    return evaluate(Q, *best);
 }
 
 // Competition hook (optional, ungraded): gets the mesh, edge and new position.

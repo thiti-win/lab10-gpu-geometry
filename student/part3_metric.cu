@@ -26,17 +26,17 @@
 __global__ void distance_kernel(const vec3* points, int n_points, const vec3* tri_verts,
                                 int n_tris, float* out_max, float* out_sum) {
     // TODO (3a) 1: Global x index: blockIdx.x * blockDim.x + threadIdx.x.
-    int i = task_blank<int>("3a");
+    int i = blockIdx.x * blockDim.x + threadIdx.x;
     if (i >= n_points) return;
     float best_dist = 1e30f; // A huge number; every real distance is smaller.
     for (int j = 0; j < n_tris; ++j) {
         float distance = point_triangle_distance(points[i], tri_verts[3 * j],
                                                 tri_verts[3 * j + 1], tri_verts[3 * j + 2]);
         // TODO (3a) 2: Keep min(best_dist, distance).
-        best_dist = task_blank<float>("3a");
+        best_dist = min(best_dist, distance);
     }
     // TODO (3a) 3: Replace this statement with atomic_max_float(out_max, best_dist).
-    task_blank<int>("3a");
+    atomic_max_float(out_max, best_dist);
     // TODO (3a) 4: Replace this statement with atomic_add_float(out_sum, best_dist).
-    task_blank<int>("3a");
+    atomic_add_float(out_sum, best_dist);
 }
